@@ -7,23 +7,18 @@ const mongoose = require("./connection");
 // Define Model
 ////////////////////////////////////////////////
 // pull schema and model from mongoose
-const {
-    Schema,
-    model
-} = mongoose;
+const { Schema, model } = mongoose;
 
 // make fruits schema
-const fruitsSchema = new Schema({
-    name: String,
-    color: String,
-    readyToEat: Boolean,
-    username: String,
+const userSchema = new Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
 
 // make fruit model
-const Fruit = model("Fruit", fruitsSchema);
+const User = model("User", userSchema);
 
 ///////////////////////////////////////////////////
 // Export Model
 ///////////////////////////////////////////////////
-module.exports = Fruit;
+module.exports = User;

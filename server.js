@@ -9,8 +9,12 @@ const methodOverride = require("method-override");
 
 // we need to require our routers
 const FruitRouter = require('./controllers/fruits')
+const UserRouter = require("./controllers/user");
 
 const path = require("path")
+
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 ////////////////////////////////////////////////
 // Our Models
@@ -38,14 +42,28 @@ app.use(express.urlencoded({
 })); // parse urlencoded request bodies
 app.use(express.static("public")); // serve files from public statically
 
+// middleware to setup session
+app.use(
+    session({
+      secret: process.env.SECRET,
+      store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL }),
+      saveUninitialized: true,
+      resave: false,
+    })
+  );
+
 // send all '/fruits' routes to the Fruit Router
-app.use('/fruits', FruitRouter)
+app.use('/fruits', FruitRouter) // send all "/fruits" routes to fruit router
+app.use("/user", UserRouter); // send all "/user" routes to user router
+
+
 
 ////////////////////////////////////////////
 // Routes
 ////////////////////////////////////////////
 app.get("/", (req, res) => {
-    res.send("your server is running... better catch it.");
+    // res.send("your server is running... better catch it.");
+    res.render("index.liquid");
 });
 
 

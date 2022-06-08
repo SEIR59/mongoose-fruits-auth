@@ -6,6 +6,7 @@ const path = require("path")
 const middleware = require("./utils/middleware");
 const FruitRouter = require("./controllers/fruits");
 const UserRouter = require("./controllers/user");
+const HomeRouter = require("./controllers/home");
 
 ////////////////////////////////////////////////
 // Our Models
@@ -35,12 +36,7 @@ middleware(app);
 // send all '/fruits' routes to the Fruit Router
 app.use('/fruits', FruitRouter) // send all "/fruits" routes to fruit router
 app.use("/user", UserRouter); // send all "/user" routes to user router
-
-app.get("/", (req, res) => {
-    // res.send("your server is running... better catch it.");
-    res.render("index.liquid");
-});
-
+app.use("/", HomeRouter); // handle all other requests
 
 //////////////////////////////////////////////
 // Server Listener
